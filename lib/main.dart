@@ -108,10 +108,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _getUserMedia() async {
     final Map<String, dynamic> constraints = {
-      'audio': true,
-      // 'video': {
-      //   'facingMode': 'user',
-      // },
+      'audio': false,
+      'video': {
+        'facingMode': 'user',
+      },
     };
 
     MediaStream stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -129,6 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
     print(json.encode(session));
     _offer = true;
 
+    // print(json.encode({
+    //       'sdp': description.sdp.toString(),
+    //       'type': description.type.toString(),
+    //     }));
+
     _peerConnection!.setLocalDescription(description);
   }
 
@@ -138,6 +143,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var session = parse(description.sdp.toString());
     print(json.encode(session));
+    // print(json.encode({
+    //       'sdp': description.sdp.toString(),
+    //       'type': description.type.toString(),
+    //     }));
 
     _peerConnection!.setLocalDescription(description);
   }
@@ -148,6 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     String sdp = write(session, null);
 
+    // RTCSessionDescription description =
+    //     new RTCSessionDescription(session['sdp'], session['type']);
     RTCSessionDescription description =
         new RTCSessionDescription(sdp, _offer ? 'answer' : 'offer');
     print(description.toMap());
@@ -168,24 +179,33 @@ class _MyHomePageState extends State<MyHomePage> {
       height: 210,
       child: Row(children: [
         Flexible(
-          child: Container(
-              key: const Key("local"),
-              margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-              decoration: const BoxDecoration(color: Colors.black),
-              child: RTCVideoView(_localRenderer)),
+          child: new Container(
+              key: new Key("local"),
+              margin: new EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+              decoration: new BoxDecoration(color: Colors.black),
+              child: new RTCVideoView(_localRenderer)),
         ),
         Flexible(
-          child: Container(
-              key: const Key("remote"),
-              margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-              decoration: const BoxDecoration(color: Colors.black),
-              child: RTCVideoView(_remoteRenderer)),
+          child: new Container(
+              key: new Key("remote"),
+              margin: new EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+              decoration: new BoxDecoration(color: Colors.black),
+              child: new RTCVideoView(_remoteRenderer)),
         )
       ]));
 
   Row offerAndAnswerButtons() =>
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-        ElevatedButton(
+        new ElevatedButton(
+          // onPressed: () {
+          //   return showDialog(
+          //       context: context,
+          //       builder: (context) {
+          //         return AlertDialog(
+          //           content: Text(sdpController.text),
+          //         );
+          //       });
+          // },
           onPressed: _createOffer,
           child: Text('Offer'),
           // color: Colors.amber,
@@ -231,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
                 child: Column(
           children: [
-            //videoRenderers(),
+            videoRenderers(),
             offerAndAnswerButtons(),
             sdpCandidatesTF(),
             sdpCandidateButtons(),
