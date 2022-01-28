@@ -109,9 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
   _getUserMedia() async {
     final Map<String, dynamic> constraints = {
       'audio': true,
-      'video': {
-        'facingMode': 'user',
-      },
+      // 'video': {
+      //   'facingMode': 'user',
+      // },
     };
 
     MediaStream stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -185,16 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Row offerAndAnswerButtons() =>
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-        new ElevatedButton(
-          // onPressed: () {
-          //   return showDialog(
-          //       context: context,
-          //       builder: (context) {
-          //         return AlertDialog(
-          //           content: Text(sdpController.text),
-          //         );
-          //       });
-          // },
+        ElevatedButton(
           onPressed: _createOffer,
           child: Text('Offer'),
           // color: Colors.amber,
@@ -240,7 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
                 child: Column(
           children: [
-            videoRenderers(),
+            //videoRenderers(),
             offerAndAnswerButtons(),
             sdpCandidatesTF(),
             sdpCandidateButtons(),
